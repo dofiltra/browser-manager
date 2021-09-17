@@ -21,9 +21,9 @@ class BrowserManager extends Disposable {
       browserType = chromium,
       idleCloseSeconds = 20,
       lockCloseFirst = 60,
-      launchOpts,
       browserContextOpts,
       profileName,
+      launchOpts,
       torOpts,
       appPath
     } = { ...browserOpts }
