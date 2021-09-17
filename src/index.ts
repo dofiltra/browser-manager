@@ -11,8 +11,8 @@ class BrowserManager extends Disposable {
   public static MAX_OPEN_BROWSERS = 0
   public static openedBrowsers = 0
 
-  private browser?: Browser
-  private browserContext?: BrowserContext
+  protected browser?: Browser
+  protected browserContext?: BrowserContext
 
   static async build(browserOpts: TBrowserOpts): Promise<BrowserManager> {
     const {
