@@ -14,7 +14,7 @@ class BrowserManager extends Disposable {
   protected browser?: Browser
   protected browserContext?: BrowserContext
 
-  static async build(browserOpts: TBrowserOpts): Promise<any> {
+  static async build<T>(browserOpts: TBrowserOpts): Promise<T> {
     const {
       maxOpenedBrowsers = BrowserManager.MAX_OPEN_BROWSERS,
       device = devices['Pixel 5'],
@@ -79,7 +79,7 @@ class BrowserManager extends Disposable {
       //  logTg(`Pwrt.init: ${e}`)
     }
 
-    return browserMgr
+    return browserMgr as unknown as T
   }
 
   async newPage({ url, autoCloseTimeout, waitUntil = 'domcontentloaded' }: TNewPageOpts) {
