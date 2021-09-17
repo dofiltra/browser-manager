@@ -14,7 +14,7 @@ class BrowserManager extends Disposable {
   protected browser?: Browser
   protected browserContext?: BrowserContext
 
-  static async build(browserOpts: TBrowserOpts): Promise<BrowserManager> {
+  static async build(browserOpts: TBrowserOpts): Promise<any> {
     const {
       maxOpenedBrowsers = BrowserManager.MAX_OPEN_BROWSERS,
       device = devices['Pixel 5'],
@@ -33,19 +33,17 @@ class BrowserManager extends Disposable {
       return await BrowserManager.build(browserOpts)
     }
 
-    const browserMgr = new BrowserManager()
+    const browserMgr = new this()
 
     try {
       if (!browserMgr.browserContext) {
         BrowserManager.openedBrowsers++
-        browserMgr.lockClose(30)
 
-        const { host, port, torPath } = { ...torOpts }
-
+        const { host, port, torPath, proto = 'socks5' } = { ...torOpts }
         const args = [
           '--disable-web-security',
           ...(launchOpts?.args || []),
-          ...[host && port && `--proxy-server=socks5://${host}:${port}`].filter((x) => x)
+          ...[host && port && `--proxy-server=${proto}://${host}:${port}`].filter((x) => x)
         ]
 
         if (host && port) {

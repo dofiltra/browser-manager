@@ -1,6 +1,7 @@
 import { BrowserContextOptions, BrowserType, LaunchOptions } from 'playwright'
 
 export type TTorOpts = {
+  proto?: string
   host: string
   port: number
   torPath?: string
