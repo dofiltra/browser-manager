@@ -228,4 +228,4 @@ class BrowserManager extends Disposable {
   }
 }
 
-export { BrowserManager as BrowserMgr }
+export { BrowserManager }
