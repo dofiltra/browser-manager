@@ -88,14 +88,17 @@ class BrowserManager extends Disposable {
     this.lockClose(60)
     try {
       const page = await this.browserContext!.newPage()
-      url &&
-        (await page.goto(url, {
+      if (url) {
+        await page.goto(url, {
           waitUntil
-        }))
+        })
+      }
       this.autoClosePage(page, autoCloseTimeout)
       this.lockClose()
       return page
-    } catch {}
+    } catch (e: any) {
+      // log(e)
+    }
 
     try {
       await this.close()
@@ -121,11 +124,11 @@ class BrowserManager extends Disposable {
     try {
       this.lockClose(60)
       const resp = await page.waitForResponse(
-        (resp) => {
-          const statusDetect = resp.status() === 200
-          const urlDetect = !url || resp.url().indexOf(url) > -1
+        (response) => {
+          const statusDetect = response.status() === 200
+          const urlDetect = !url || response.url().indexOf(url) > -1
           const postDataTextDetect =
-            !postDataText || (resp.request().postData()?.indexOf(JSON.stringify(postDataText)) || -1) > -1
+            !postDataText || (response.request().postData()?.indexOf(JSON.stringify(postDataText)) || -1) > -1
 
           if (!statusDetect || !urlDetect || !postDataTextDetect) {
             return false
@@ -149,7 +152,7 @@ class BrowserManager extends Disposable {
 
       return await resp.json()
     } catch (e) {
-      console.log(e)
+      //   console.log(e)
     }
 
     return null
@@ -167,25 +170,30 @@ class BrowserManager extends Disposable {
         waitUntil: 'networkidle',
         autoCloseTimeout: 15e3
       })
-      console.log('ip', await pageIp?.innerText('pre'))
+      const ip = await pageIp?.innerText('pre')
       pageIp?.close()
-    } catch {}
+
+      return ip
+    } catch (e) {
+      return e
+    }
   }
 
   async close(title = '') {
     try {
       if (!this.browser && !this.browserContext) {
-        console.log('already closed...', BrowserManager.openedBrowsers, title)
-        return
+        return `already closed... ${BrowserManager.openedBrowsers}, ${title}`
       }
 
-      this.browserContext?.browser() && (await this.browserContext?.close())
+      if (this.browserContext?.browser()) {
+        await this.browserContext?.close()
+      }
       await this.browser?.close()
 
       delete this.browser
       delete this.browserContext
     } catch (e) {
-      console.log(e)
+      return e
     }
     if (BrowserManager.openedBrowsers) {
       BrowserManager.openedBrowsers--
@@ -210,10 +218,13 @@ class BrowserManager extends Disposable {
   }
 
   private async autoClosePage(page: Page, timeout?: number) {
-    timeout &&
-      setTimeout(() => {
-        page?.close()
-      }, timeout)
+    if (!timeout) {
+      return
+    }
+
+    setTimeout(() => {
+      page?.close()
+    }, timeout)
   }
 }
 
