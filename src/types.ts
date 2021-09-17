@@ -1,5 +1,4 @@
-import { BrowserContextOptions, BrowserType, LaunchOptions } from "playwright"
-
+import { BrowserContextOptions, BrowserType, LaunchOptions } from 'playwright'
 
 export type TTorOpts = {
   host: string
