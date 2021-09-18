@@ -227,3 +227,4 @@ class BrowserManager extends Disposable {
 }
 
 export { BrowserManager, Disposable }
+export * from 'playwright'
