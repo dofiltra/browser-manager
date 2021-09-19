@@ -112,21 +112,21 @@ class BrowserManager extends Disposable {
     return null
   }
 
-  async getRespResult(
+  async getRespResult<T>(
     page: Page,
     url?: string,
     postDataText?: string,
 
     resultAs?: 'json' | 'text'
-  ) {
+  ): Promise<T | string | null> {
     try {
       this.lockClose(60)
       const resp = await page.waitForResponse(
         (response) => {
           const statusDetect = response.status() === 200
-          const urlDetect = !url || response.url().indexOf(url) > -1
+          const urlDetect = !url || response.url().includes(url)
           const postDataTextDetect =
-            !postDataText || (response.request().postData()?.indexOf(JSON.stringify(postDataText)) || -1) > -1
+            !postDataText || response.request().postData()?.includes(JSON.stringify(postDataText))
 
           if (!statusDetect || !urlDetect || !postDataTextDetect) {
             return false
@@ -148,7 +148,7 @@ class BrowserManager extends Disposable {
         return await resp.text()
       }
 
-      return await resp.json()
+      return (await resp.json()) as T
     } catch (e) {
       //   console.log(e)
     }
