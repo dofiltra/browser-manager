@@ -8,18 +8,17 @@ import { Disposable } from './disposable'
 import { TNewPageOpts, TBrowserOpts } from './types'
 
 class BrowserManager extends Disposable {
-  public static MAX_OPEN_BROWSERS = 0
   public static openedBrowsers = 0
 
   protected browser?: Browser
   protected browserContext?: BrowserContext
 
-  static async build<T>(browserOpts: TBrowserOpts): Promise<T> {
+  static async build<T>(browserOpts: TBrowserOpts): Promise<T | null> {
     const {
-      maxOpenedBrowsers = BrowserManager.MAX_OPEN_BROWSERS,
       device = devices['Pixel 5'],
       browserType = chromium,
-      idleCloseSeconds = 20,
+      maxOpenedBrowsers = 0,
+      idleCloseSeconds = 50,
       lockCloseFirst = 60,
       browserContextOpts,
       profileName,
@@ -27,6 +26,10 @@ class BrowserManager extends Disposable {
       torOpts,
       appPath
     } = { ...browserOpts }
+
+    if (maxOpenedBrowsers === 0) {
+      return null
+    }
 
     if (BrowserManager.openedBrowsers >= maxOpenedBrowsers!) {
       await sleep(_.random(5e3, 20e3))
