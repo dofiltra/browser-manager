@@ -44,7 +44,7 @@
   "dependencies": {
     "is-running-process": "^1.0.0",
     "lodash": "^4.17.21",
-    "playwright": "^1.14.1",
+    "playwright": "^1.15.2",
     "time-helpers": "^1.0.0",
     "tor-mgr": "^1.0.0"
   }
