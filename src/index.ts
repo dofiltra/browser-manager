@@ -79,7 +79,7 @@ class BrowserManager extends Disposable {
         browserMgr.idleCloser(idleCloseSeconds)
       }
     } catch (e: any) {
-      //  logTg(`Pwrt.init: ${e}`)
+      // console.log(`Pwrt.init: ${e}`)
     }
 
     return browserMgr as unknown as T
