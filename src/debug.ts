@@ -18,7 +18,7 @@ const debug = async () => {
 
     const page = await pwrt?.newPage({})
     await page?.goto('https://dofiltra.com')
-    console.log('page', page)
+    // console.log('page', page)
 
     return { pwrt, page }
   } catch (e) {
