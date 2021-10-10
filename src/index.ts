@@ -103,7 +103,7 @@ class BrowserManager extends Disposable {
           waitUntil
         })
       }
-      
+
       this.autoClosePage(page, autoCloseTimeout)
       this.lockClose()
       return page
