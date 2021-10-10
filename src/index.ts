@@ -85,15 +85,25 @@ class BrowserManager extends Disposable {
     return browserMgr as unknown as T
   }
 
-  async newPage({ url, autoCloseTimeout, waitUntil = 'domcontentloaded' }: TNewPageOpts) {
+  async newPage({ url, blackList, autoCloseTimeout, waitUntil = 'domcontentloaded' }: TNewPageOpts) {
     this.lockClose(60)
     try {
       const page = await this.browserContext!.newPage()
+
+      if (blackList?.urls?.length) {
+        await page?.route('**/*', (route) => {
+          return blackList.urls!.some((bl) => new RegExp(bl).test(route.request().url()))
+            ? route.abort()
+            : route.continue()
+        })
+      }
+
       if (url) {
         await page.goto(url, {
           waitUntil
         })
       }
+      
       this.autoClosePage(page, autoCloseTimeout)
       this.lockClose()
       return page

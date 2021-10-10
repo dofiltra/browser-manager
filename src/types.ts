@@ -24,4 +24,9 @@ export type TNewPageOpts = {
   url?: string
   waitUntil?: 'domcontentloaded' | 'load' | 'networkidle'
   autoCloseTimeout?: number
+  blackList?: TBlackListOpts
+}
+
+export type TBlackListOpts = {
+  urls?: string[]
 }
