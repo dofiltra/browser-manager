@@ -42,14 +42,15 @@ class BrowserManager extends Disposable {
       if (!browserMgr.browserContext) {
         BrowserManager.openedBrowsers++
 
-        const { host, port, torPath, proto = 'socks5' } = { ...torOpts }
+        const { host: hostTor, port: portTor, torPath, proto = 'socks5' } = { ...torOpts }
         const args = [
           '--disable-web-security',
+          '--ignore-certificate-errors',
           ...(launchOpts?.args || []),
-          ...[host && port && `--proxy-server=${proto}://${host}:${port}`].filter((x) => x)
+          ...[hostTor && portTor && `--proxy-server=${proto}://${hostTor}:${portTor}`].filter((x) => x)
         ]
 
-        if (host && port) {
+        if (hostTor && portTor) {
           await new TorManager({ path: torPath && path.resolve(torPath) }).restart()
         }
 
