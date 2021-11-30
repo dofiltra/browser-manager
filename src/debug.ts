@@ -4,24 +4,25 @@ import { BrowserManager } from '.'
 const debug = async () => {
   try {
     const proxies = [
-      { url: 'http://45.89.19.21:16739@FSOfa5:EZaEVDGtbm' },
-      { url: 'socks5://45.89.19.117:17807@FSOfa5:EZaEVDGtbm' },
-      { url: 'socks5://45.89.19.50:7167@FSOfa5:EZaEVDGtbm' },
-      { url: 'socks5://45.89.18.237:8135@FSOfa5:EZaEVDGtbm' },
-      { url: 'socks5://45.89.19.46:4919@FSOfa5:EZaEVDGtbm' },
-      { url: 'socks5://45.89.19.51:11939@FSOfa5:EZaEVDGtbm' },
-      { url: 'socks5://45.89.19.63:16725@FSOfa5:EZaEVDGtbm' },
-      { url: 'socks5://45.89.19.12:18473@FSOfa5:EZaEVDGtbm' },
-      { url: 'socks5://45.89.19.115:12069@FSOfa5:EZaEVDGtbm' },
-      { url: 'socks5://45.89.19.118:4099@FSOfa5:EZaEVDGtbm' }
+      // { url: 'http://45.89.19.21:16739@FSOfa5:EZaEVDGtbm' },
+      // { url: 'socks5://45.89.19.117:17807@FSOfa5:EZaEVDGtbm' },
+      // { url: 'socks5://45.89.19.50:7167@FSOfa5:EZaEVDGtbm' },
+      // { url: 'socks5://45.89.18.237:8135@FSOfa5:EZaEVDGtbm' },
+      // { url: 'socks5://45.89.19.46:4919@FSOfa5:EZaEVDGtbm' },
+      // { url: 'socks5://45.89.19.51:11939@FSOfa5:EZaEVDGtbm' },
+      // { url: 'socks5://45.89.19.63:16725@FSOfa5:EZaEVDGtbm' },
+      // { url: 'socks5://45.89.19.12:18473@FSOfa5:EZaEVDGtbm' },
+      // { url: 'socks5://45.89.19.115:12069@FSOfa5:EZaEVDGtbm' },
+      // { url: 'socks5://45.89.19.118:4099@FSOfa5:EZaEVDGtbm' }
     ]
 
-    const pwrt: BrowserManager | null = await BrowserManager.build({
+    const pwrt = await BrowserManager.build<BrowserManager>({
       browserType: chromium,
       launchOpts: {
         headless: false
       },
       device: devices['Pixel 5'],
+      lockCloseFirst: 500,
       idleCloseSeconds: 60,
       maxOpenedBrowsers: 5
 
@@ -31,8 +32,12 @@ const debug = async () => {
     // console.log('pwrt', pwrt)
 
     const page = await pwrt?.newPage({
-      url: 'https://youtube.com'
+      url: 'https://scrapingant.com/blog/block-requests-playwright',
+      blackList: {
+        resourceTypes: ['image', 'stylesheet']
+      }
     })
+    // debugger
     // console.log('page', page)
 
     return { pwrt, page }

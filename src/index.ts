@@ -90,12 +90,14 @@ class BrowserManager extends Disposable {
     this.lockClose(60)
     try {
       const page = await this.browserContext!.newPage()
+      const { urls: blackUrls = [], resourceTypes: blackTypes = [] } = { ...blackList }
 
-      if (blackList?.urls?.length) {
+      if (blackUrls?.length || blackTypes?.length) {
         await page?.route('**/*', (route) => {
-          return blackList.urls!.some((bl) => new RegExp(bl).test(route.request().url()))
-            ? route.abort()
-            : route.continue()
+          const isBlackUrl = blackUrls?.some((bl) => new RegExp(bl).test(route.request().url()))
+          const isBlackType = blackTypes?.includes(route.request().resourceType() as any)
+
+          return isBlackUrl || isBlackType ? route.abort() : route.continue()
         })
       }
 

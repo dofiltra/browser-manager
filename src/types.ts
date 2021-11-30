@@ -29,4 +29,18 @@ export type TNewPageOpts = {
 
 export type TBlackListOpts = {
   urls?: string[]
+  resourceTypes?: (
+    | 'image'
+    | 'stylesheet'
+    | 'media'
+    | 'font'
+    | 'script'
+    | 'texttrack'
+    | 'xhr'
+    | 'fetch'
+    | 'eventsource'
+    | 'websocket'
+    | 'manifest'
+    | 'other'
+  )[]
 }
