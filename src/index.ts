@@ -141,8 +141,9 @@ class BrowserManager extends Disposable {
         (response) => {
           const statusDetect = response.status() === 200
           const urlDetect = !url || response.url().includes(url)
+          const postData = response.request().postData()
           const postDataTextDetect =
-            !postDataText || response.request().postData()?.includes(JSON.stringify(postDataText))
+            !postDataText || postData?.includes(postDataText) || postData?.includes(JSON.stringify(postDataText))
 
           if (!statusDetect || !urlDetect || !postDataTextDetect) {
             return false
