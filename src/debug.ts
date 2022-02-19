@@ -4,16 +4,7 @@ import { BrowserManager } from '.'
 const debug = async () => {
   try {
     const proxies = [
-      // { url: 'http://45.89.19.21:16739@FSOfa5:EZaEVDGtbm' },
-      // { url: 'socks5://45.89.19.117:17807@FSOfa5:EZaEVDGtbm' },
-      // { url: 'socks5://45.89.19.50:7167@FSOfa5:EZaEVDGtbm' },
-      // { url: 'socks5://45.89.18.237:8135@FSOfa5:EZaEVDGtbm' },
-      // { url: 'socks5://45.89.19.46:4919@FSOfa5:EZaEVDGtbm' },
-      // { url: 'socks5://45.89.19.51:11939@FSOfa5:EZaEVDGtbm' },
-      // { url: 'socks5://45.89.19.63:16725@FSOfa5:EZaEVDGtbm' },
-      // { url: 'socks5://45.89.19.12:18473@FSOfa5:EZaEVDGtbm' },
-      // { url: 'socks5://45.89.19.115:12069@FSOfa5:EZaEVDGtbm' },
-      // { url: 'socks5://45.89.19.118:4099@FSOfa5:EZaEVDGtbm' }
+      // { url: 'http://45.89.19.21:16739@FSOfa5:EZaEVDGtbm' }
     ]
 
     const pwrt = await BrowserManager.build<BrowserManager>({
@@ -29,7 +20,7 @@ const debug = async () => {
       // appPath: App.rootPath
     })
 
-    // console.log('pwrt', pwrt)
+    console.log('pwrt', pwrt)
 
     const page = await pwrt?.newPage({
       url: 'https://scrapingant.com/blog/block-requests-playwright',
@@ -38,7 +29,10 @@ const debug = async () => {
       }
     })
     // debugger
-    // console.log('page', page)
+    console.log('page', page)
+
+    await page?.close()
+    await pwrt?.close()
 
     return { pwrt, page }
   } catch (e) {
