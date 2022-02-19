@@ -1,4 +1,4 @@
-/**tslint:disable:no-console */
+/** tslint:disabled:no-console */
 import { devices, chromium } from 'playwright'
 import { BrowserManager } from '.'
 
