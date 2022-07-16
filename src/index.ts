@@ -43,36 +43,39 @@ class BrowserManager extends Disposable {
         BrowserManager.openedBrowsers++
 
         const { host: hostTor, port: portTor, torPath, proto = 'socks5' } = { ...torOpts }
-        const args = [
-          '--disable-web-security',
-          '--ignore-certificate-errors',
-          ...(launchOpts?.args || []),
-          ...[hostTor && portTor && `--proxy-server=${proto}://${hostTor}:${portTor}`].filter((x) => x)
-        ]
 
         if (hostTor && portTor) {
           await new TorManager({ path: torPath && path.resolve(torPath) }).restart()
         }
 
         const opts = {
-          headless: launchOpts?.headless !== true,
+          headless: launchOpts?.headless !== false,
           locale: 'en-US',
-          args,
+
           ...device,
-          ...browserContextOpts
+          ...launchOpts,
+          ...browserContextOpts,
+
+          args: [
+            '--disable-web-security',
+            '--ignore-certificate-errors',
+            ...(launchOpts?.args || []),
+            ...[hostTor && portTor && `--proxy-server=${proto}://${hostTor}:${portTor}`].filter((x) => x)
+          ]
         }
 
         if (profileName && appPath) {
           const userPath = path.join(appPath, 'node_modules', '.browser_profiles', profileName)
-          browserMgr.browserContext = await browserType.launchPersistentContext(userPath, opts)
+          browserMgr.browserContext = await browserType.launchPersistentContext(userPath, {
+            ...opts
+          })
         } else {
           browserMgr.browser = await browserType.launch({
             ...opts,
             ...launchOpts
           })
           browserMgr.browserContext = await browserMgr.browser.newContext({
-            ...opts,
-            ...browserContextOpts
+            ...opts
           })
         }
 

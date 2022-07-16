@@ -11,7 +11,7 @@ const debug = async () => {
     const pwrt = await BrowserManager.build<BrowserManager>({
       browserType: chromium,
       launchOpts: {
-        headless: true
+        headless: false
       },
       device: devices['Pixel 5'],
       lockCloseFirst: 500,
