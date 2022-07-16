@@ -206,7 +206,9 @@ class BrowserManager extends Disposable {
       await this.browser?.close()
 
       // if (this.browserContext?.browser()) {
-      this.browserContext?.close && this.browserContext?.close()
+      if (this.browserContext?.close) {
+        this.browserContext?.close()
+      }
       // }
 
       delete this.browser
