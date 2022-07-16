@@ -65,7 +65,7 @@ class BrowserManager extends Disposable {
         }
 
         if (profileName && appPath) {
-          const userPath = path.join(appPath, 'node_modules', '.browser_profiles', profileName)
+          const userPath = this.getUserPath(appPath, profileName)
           browserMgr.browserContext = await browserType.launchPersistentContext(userPath, {
             ...opts
           })
@@ -87,6 +87,10 @@ class BrowserManager extends Disposable {
     }
 
     return browserMgr as unknown as T
+  }
+
+  static getUserPath(appPath: string, profileName: string) {
+    return path.join(appPath, 'node_modules', '.browser_profiles', profileName)
   }
 
   async newPage({ url, blackList, autoCloseTimeout, waitUntil = 'domcontentloaded' }: TNewPageOpts) {
