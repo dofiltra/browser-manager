@@ -203,10 +203,11 @@ class BrowserManager extends Disposable {
         return `already closed... ${BrowserManager.openedBrowsers}, ${title}`
       }
 
-      if (this.browserContext?.browser()) {
-        await this.browserContext?.close()
-      }
       await this.browser?.close()
+
+      // if (this.browserContext?.browser()) {
+      this.browserContext?.close && this.browserContext?.close()
+      // }
 
       delete this.browser
       delete this.browserContext
