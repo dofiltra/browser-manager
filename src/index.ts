@@ -208,6 +208,7 @@ class BrowserManager extends Disposable {
       // if (this.browserContext?.browser()) {
       if (this.browserContext?.close) {
         this.browserContext?.close()
+        await Promise.all(this.browserContext?.pages().map(async (p) => await p.close()))
       }
       // }
 
