@@ -1,3 +1,5 @@
+/* tslint:disable:no-console */
+
 import _ from 'lodash'
 import moment from 'moment'
 import path from 'path'
@@ -83,7 +85,7 @@ class BrowserManager extends Disposable {
         browserMgr.idleCloser(idleCloseSeconds)
       }
     } catch (e: any) {
-      // console.log(`Pwrt.init: ${e}`)
+      console.log(`Pwrt.build: ${e}`)
     }
 
     return browserMgr as unknown as T
@@ -118,7 +120,7 @@ class BrowserManager extends Disposable {
       this.lockClose()
       return page
     } catch (e: any) {
-      // log(e)
+      console.log(e)
     }
 
     try {
@@ -129,7 +131,7 @@ class BrowserManager extends Disposable {
       this.lockClose()
       return page
     } catch (e: any) {
-      //   logTg(`newPage: ${e}`)
+      console.log(`newPage: ${e}`)
     }
 
     return null

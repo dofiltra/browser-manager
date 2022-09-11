@@ -8,10 +8,13 @@ const debug = async () => {
       // { url: 'http://45.89.19.21:16739@FSOfa5:EZaEVDGtbm' }
     ]
 
+    const headless = true
+    console.log('headless', headless)
+
     const pwrt = await BrowserManager.build<BrowserManager>({
       browserType: chromium,
       launchOpts: {
-        headless: false
+        headless
       },
       device: devices['Pixel 5'],
       lockCloseFirst: 500,
