@@ -103,8 +103,8 @@ class BrowserManager extends Disposable {
 
       if (blackUrls?.length || blackTypes?.length) {
         await page?.route('**/*', (route) => {
-          const url = route.request().url()
-          const isBlackUrl = blackUrls?.some((bl) => new RegExp(bl).test(url))
+          const requrl = route.request().url()
+          const isBlackUrl = blackUrls?.some((bl) => new RegExp(bl).test(requrl))
           const isBlackType = blackTypes?.includes(route.request().resourceType() as any)
 
           return isBlackUrl || isBlackType ? route.abort() : route.continue()
