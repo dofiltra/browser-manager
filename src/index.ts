@@ -98,7 +98,12 @@ class BrowserManager extends Disposable {
   async newPage({ url, blackList, autoCloseTimeout, waitUntil = 'domcontentloaded' }: TNewPageOpts) {
     this.lockClose(60)
     try {
-      const page = await this.browserContext!.newPage()
+      const page = await this.browserContext?.newPage?.()
+
+      if (!page) {
+        return null
+      }
+
       const { urls: blackUrls = [], resourceTypes: blackTypes = [] } = { ...blackList }
 
       if (blackUrls?.length || blackTypes?.length) {
@@ -112,7 +117,7 @@ class BrowserManager extends Disposable {
       }
 
       if (url) {
-        await page?.goto(url, {
+        await page?.goto?.(url, {
           waitUntil
         })
       }
@@ -127,7 +132,12 @@ class BrowserManager extends Disposable {
     try {
       await this.close()
 
-      const page = await this.browserContext!.newPage()
+      const page = await this.browserContext?.newPage?.()
+
+      if (!page) {
+        return null
+      }
+
       this.autoClosePage(page, autoCloseTimeout)
       this.lockClose()
       return page
@@ -196,7 +206,7 @@ class BrowserManager extends Disposable {
         autoCloseTimeout: 15e3
       })
       const ip = await pageIp?.innerText('pre')
-      pageIp?.close()
+      pageIp?.close?.()
 
       return ip
     } catch (e) {
@@ -210,12 +220,12 @@ class BrowserManager extends Disposable {
         return `already closed... ${BrowserManager.openedBrowsers}, ${title}`
       }
 
-      await this.browser?.close()
+      await this.browser?.close?.()
 
       // if (this.browserContext?.browser()) {
       if (this.browserContext?.close) {
-        this.browserContext?.close()
-        await Promise.all(this.browserContext?.pages().map(async (p) => await p.close()))
+        this.browserContext?.close?.()
+        await Promise.all(this.browserContext?.pages?.().map(async (p) => await p?.close?.()))
       }
       // }
 
@@ -252,7 +262,7 @@ class BrowserManager extends Disposable {
     }
 
     setTimeout(() => {
-      page?.close()
+      page?.close?.()
     }, timeout)
   }
 }
