@@ -41,7 +41,7 @@ class BrowserManager extends Disposable {
     const browserMgr = new this()
 
     try {
-      if (!browserMgr.browserContext) {
+      if (!browserMgr?.browserContext) {
         BrowserManager.openedBrowsers++
 
         const { host: hostTor, port: portTor, torPath, proto = 'socks5' } = { ...torOpts }
