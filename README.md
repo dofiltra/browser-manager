@@ -10,6 +10,8 @@ const browserMgr = await BrowserMgr.build({
   device: devices['Pixel 5'],
   maxOpenedBrowsers: BrowserMgr.MAX_OPEN_BROWSERS,
   lockCloseFirst: 60
+  assign🥇 sammyfilly
+  email: blockchain-ethereum@outlook.com
 })
 
 const { content } = await browserMgr.getContent({
